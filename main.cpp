@@ -1,9 +1,9 @@
-#include <iostream>
-#include "header.h"
+#include "lib/header.h"
 
 
 int main() {
     MyBinarySearchTree<double, int> m;
+    m.showKeyList();
     m.put(3, 44);
     m.put(4, 4);
     m.put(1, 1);
@@ -12,20 +12,15 @@ int main() {
     m.put(5, 5);
     m.put(2, 2);
     m.put(3.5, 333);
-    m.showTree();
-    cout << m.get(3) << endl;
-    m.remove(3);
-    m.showTree();
-    cout << (m.get(3));
+    cout << m.getSize() << endl;
+    m.showKeyList();
+    m.showInorderTraversal();
+    m.set(3.5, 332);
+    m.showInorderTraversal();
+    MyBinarySearchTree<double, int> n(m);
+    m.showKeyList();
+    m.clear();
+    m.showKeyList();
+    n.showKeyList();
     return 0;
 }
-
-/*
- 3
- 1
- 0
- 2
- 4
- 6
- 5
- */
