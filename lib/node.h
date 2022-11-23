@@ -7,6 +7,7 @@ public:
     Node() {
         this->right = nullptr;
         this->left = nullptr;
+        color = 'r';
     }
 
     Node(K key, V value) {
@@ -14,6 +15,7 @@ public:
         this->value = value;
         this->right = nullptr;
         this->left = nullptr;
+        color = 'r';
     }
 
     K getKey() const {
@@ -48,10 +50,18 @@ public:
         Node::left = left;
     }
 
+    void changeColor() {
+        color = color == 'r' ? 'b' : 'r';
+    }
+
+    char getColor() {
+        return color;
+    }
 
 private:
     K key;
     V value;
+    char color;
     Node *right, *left;
 };
 
