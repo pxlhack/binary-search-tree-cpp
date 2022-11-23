@@ -1,7 +1,3 @@
-//
-// Created by pxlhack on 07.11.22.
-//
-
 #ifndef MY_BINARY_SEARCH_TREE_NODE_H
 #define MY_BINARY_SEARCH_TREE_NODE_H
 

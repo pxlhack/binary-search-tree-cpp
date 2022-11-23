@@ -5,6 +5,10 @@
 #ifndef MY_BINARY_SEARCH_TREE_HEADER_H
 #define MY_BINARY_SEARCH_TREE_HEADER_H
 
-#include "my_binary_search_tree.h"
+#include "bst.h"
+#include "user_functions.h"
+#include "tree_iterator.h"
+
+#include "complexity_test.h"
 
 #endif //MY_BINARY_SEARCH_TREE_HEADER_H
