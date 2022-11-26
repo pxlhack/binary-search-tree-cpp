@@ -1,6 +1,3 @@
-//
-// Created by pxlhack on 06.11.22.
-//
 
 #ifndef MY_BINARY_SEARCH_TREE_BST_H
 #define MY_BINARY_SEARCH_TREE_BST_H
@@ -30,11 +27,11 @@ public:
 
     bool isEmpty();
 
-    V getValueByKey(K key);
+    virtual V getValueByKey(K key);
 
-    bool put(K key, V value);
+    virtual bool put(K key, V value);
 
-    bool removeNodeByKey(K key);
+    virtual bool removeNodeByKey(K key);
 
     bool setValueForKey(V value, K key);
 

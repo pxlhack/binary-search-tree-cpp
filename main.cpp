@@ -1,13 +1,7 @@
 #include "lib/header.h"
 
 int main() {
-//    testMenu();
-//    complexityTest();
-    Node<int, int> node;
-    for (int i = 0; i < 10; ++i) {
-        cout << node.getColor() << endl;
-        node.changeColor();
-    }
-
+    RBTree<int, int> rbTree;
+    rbTree.put(3, 3);
     return 0;
 }
