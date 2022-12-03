@@ -53,9 +53,6 @@ public:
     RTreeIterator<K, V> rend();
 
 private:
-    Node<K, V> *root;
-    int nodes_counter;
-    int size;
 
     Node<K, V> *getNodeByKey(K key);
 
@@ -63,6 +60,10 @@ private:
 
     string getStringOfValues();
 
+protected:
+    Node<K, V> *root;
+    int size;
+    int nodes_counter;
 };
 
 

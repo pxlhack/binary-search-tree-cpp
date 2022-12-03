@@ -58,6 +58,11 @@ public:
         return color;
     }
 
+    void setColor(char c) {
+        color = c;
+    }
+
+
 private:
     K key;
     V value;

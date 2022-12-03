@@ -15,6 +15,12 @@ public:
 
     V getValueByKey(K key) override;
 
+private:
+    Node<K, V> *hidden_put(Node<K, V> *t, K k, V data, int s, bool *ins);
+
+    Node<K, V> *L(Node<K, V> *t);
+
+    Node<K, V> *R(Node<K, V> *t);
 };
 
 
