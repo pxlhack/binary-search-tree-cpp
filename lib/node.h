@@ -7,6 +7,7 @@ public:
     Node() {
         this->right = nullptr;
         this->left = nullptr;
+        this->parent = nullptr;
         color = 'r';
     }
 
@@ -15,6 +16,7 @@ public:
         this->value = value;
         this->right = nullptr;
         this->left = nullptr;
+        this->parent = nullptr;
         color = 'r';
     }
 
@@ -62,12 +64,35 @@ public:
         color = c;
     }
 
-
-private:
+    Node *right, *left, *parent;
     K key;
     V value;
     char color;
-    Node *right, *left;
+
+    Node *grandparent() {
+        Node *p = this->parent;
+        if (p == NULL)
+            return NULL; // No parent means no grandparent
+        return p->parent; // NULL if parent is root
+    }
+
+    Node *subling() {
+        Node *p = this->parent;
+        if (p == NULL)
+            return NULL; // No parent means no sibling
+        if (this == p->left)
+            return p->right;
+        else
+            return p->left;
+    }
+
+    Node *uncle() {
+        Node *p = this->parent;
+        Node *g = grandparent();
+        if (g == NULL)
+            return NULL; // No grandparent means no uncle
+        return p->subling();
+    }
 };
 
 #endif //MY_BINARY_SEARCH_TREE_NODE_H
