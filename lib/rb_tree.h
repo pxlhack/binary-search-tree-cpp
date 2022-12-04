@@ -15,13 +15,11 @@ public:
 
     V getValueByKey(K key) override;
 
+    void print() {
+        pr(this->root);
+    }
+
 private:
-
-    Node<K, V> *hidden_put(Node<K, V> *t, K k, V data, int s, bool *ins);
-
-    Node<K, V> *L(Node<K, V> *t);
-
-    Node<K, V> *R(Node<K, V> *t);
 
     Node<K, V> *insert(Node<K, V> *root, Node<K, V> *n);
 
@@ -37,14 +35,12 @@ private:
 
     void insert_case4(Node<K, V> *n);
 
-    void rotate_left(Node<K,V> *n) ;
+    void rotate_left(Node<K, V> *n);
 
-    void rotate_right(Node<K,V> *n);
+    void rotate_right(Node<K, V> *n);
 
-    void insert_case4step2(Node<K,V> *n);
+    void insert_case4step2(Node<K, V> *n);
 };
-
-
 
 
 #endif //MY_BINARY_SEARCH_TREE_RB_TREE_H

@@ -6,6 +6,6 @@ int main() {
     rbTree.put(5, 3);
     rbTree.put(1, 3);
     rbTree.put(10, 3);
-    rbTree.showKeysList();
+    rbTree.print();
     return 0;
 }
