@@ -7,8 +7,8 @@ int main() {
     rbTree.put(3, 3);
     rbTree.put(1, 3);
     rbTree.print();
-    cout << endl;
-    bool flag = rbTree.removeNodeByKey(5);
+    cout << endl << endl;
+    bool flag = rbTree.removeNodeByKey(10);
     cout << endl;
     rbTree.print();
 

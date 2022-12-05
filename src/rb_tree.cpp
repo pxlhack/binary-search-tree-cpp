@@ -1,5 +1,7 @@
 #include "../lib/rb_tree.h"
 
+#define RED 'r'
+#define BLACK 'b'
 
 template<typename K, typename V>
 RBTree<K, V>::RBTree() {
@@ -171,26 +173,252 @@ void RBTree<K, V>::insert_recurse(Node<K, V> *root, Node<K, V> *n) {
 }
 
 template<typename K, typename V>
-bool RBTree<K, V>::removeNodeByKey(K key) {
-    try {
-        Node<K, V> *n = search(this->root, key);
-        cout << "Key: " << n->getKey() << endl;
+Node<K, V>* successor(Node<K, V>* x) {
+    Node<K, V>* temp = x;
 
-        Node<K, V> *child = (n->right)->isLeaf() ? n->left : n->right;
-        cout << "child: " << child->getKey() << endl;
-        replace_node(n, child);
-        print();
-        if (n->color == 'b') {
-            if (child->color == 'r')
-                child->color = 'b';
+    while (temp->getLeft() != nullptr)
+        temp = temp->getLeft();
+
+    return temp;
+}
+
+// find node that replaces a deleted node in BST
+template<typename K, typename V>
+Node<K, V>* BSTreplace(Node<K, V>* x) {
+    // when node have 2 children
+    if (x->getLeft() != nullptr && x->getRight() != nullptr)
+        return successor(x->getRight());
+
+    // when leaf
+    if (x->getLeft() == nullptr && x->getRight() == nullptr)
+        return nullptr;
+
+    // when single child
+    if (x->getLeft() != nullptr)
+        return x->getLeft();
+    else
+        return x->getRight();
+}
+
+template<typename K, typename V>
+Node<K, V>* RBTree<K, V>::parentf(Node<K, V>* u)
+{
+    if (u->getKey() == this->root->getKey())
+        return nullptr;
+    else
+    {
+        auto t = this->root;
+
+        while (true)
+        {
+            if (t->getRight() != nullptr && t->getRight()->getKey() == u->getKey())
+                break;
+
+            if (t->getLeft() != nullptr && t->getLeft()->getKey() == u->getKey())
+                break;
+
+            if (t->getKey() > u->getKey())
+                t = t->getLeft();
             else
-                delete_case1(child);
+                t = t->getRight();
         }
-
-        return true;
-    } catch (const char *) {
-        return false;
     }
+}
+
+template<typename K, typename V>
+bool isOnLeft(Node<K, V>* t)
+{
+    return (t == t->parent->getLeft());
+}
+
+template<typename K, typename V>
+bool hasRedChild(Node<K, V>* n) {
+    return (n->getLeft() != NULL && n->getLeft()->getColor() == RED) ||
+        (n->getRight() != NULL && n->getRight()->getColor() == RED);
+}
+
+template<typename K, typename V>
+void RBTree<K, V>::fixDoubleBlack(Node<K, V>* x) {
+    if (x == root)
+        // Reached root
+        return;
+
+    Node<K, V>* sibling = x->sibling(), * parent = parentf(x);
+    if (sibling == NULL) {
+        // No sibiling, double black pushed up
+        fixDoubleBlack(parent);
+    }
+    else {
+        if (sibling->getColor() == RED) {
+            // Sibling red
+            parent->setColor(RED);
+            sibling->setColor(BLACK);
+            if (isOnLeft(sibling)) {
+                // left case
+                rotate_right(parent);
+            }
+            else {
+                // right case
+                rotate_left(parent);
+            }
+            fixDoubleBlack(x);
+        }
+        else {
+            // Sibling black
+            if (hasRedChild(sibling)) {
+                // at least 1 red children
+                if (sibling->getLeft() != NULL && sibling->getLeft()->getColor() == RED) {
+                    if (isOnLeft(sibling)) {
+                        // left left
+                        sibling->getLeft()->setColor(sibling->getColor());
+                        sibling->setColor(parent->getColor());
+                        rotate_right(parent);
+                    }
+                    else {
+                        // right left
+                        sibling->getLeft()->setColor(parent->getColor());
+                        rotate_right(sibling);
+                        rotate_left(parent);
+                    }
+                }
+                else {
+                    if (isOnLeft(sibling)) {
+                        // left right
+                        sibling->getRight()->setColor(parent->color);
+                        rotate_left(sibling);
+                        rotate_right(parent);
+                    }
+                    else {
+                        // right right
+                        sibling->getRight()->setColor(sibling->color);
+                        sibling->setColor(parent->color);
+                        rotate_left(parent);
+                    }
+                }
+                parent->setColor(BLACK);
+            }
+            else {
+                // 2 black children
+                sibling->setColor(RED);
+                if (parent->getColor() == BLACK)
+                    fixDoubleBlack(parent);
+                else
+                    parent->setColor(BLACK);
+            }
+        }
+    }
+}
+
+template<typename K, typename V>
+Node<K, V>* sibling(Node<K, V>* t) {
+    // sibling null if no parent
+    if (t->parent == NULL)
+        return NULL;
+
+    if (isOnLeft(t))
+        return t->parent->getRight();
+
+    return t->parent->getLeft();
+}
+
+template<typename K, typename V>
+void swapValues(Node<K, V>* u, Node<K, V>* v) {
+    int temp;
+    temp = u->getValue();
+    u->setValue(v->getValue());
+    v->setValue(temp);
+}
+
+template<typename K, typename V>
+void RBTree<K, V>::deleteNode(Node<K, V>* v) {
+    auto u = BSTreplace(v);
+
+    // True when u and v are both black
+    bool uvBlack = ((u == NULL || u->getColor() == BLACK) && (v->getColor() == BLACK));
+    auto parent = parentf(v);
+
+    if (u == NULL) {
+        // u is NULL therefore v is leaf
+        if (v == root) {
+            // v is root, making root null
+            root = NULL;
+        }
+        else {
+            if (uvBlack) {
+                // u and v both black
+                // v is leaf, fix double black at v
+                fixDoubleBlack(v);
+            }
+            else {
+                // u or v is red
+                if (sibling(v) != NULL)
+                    // sibling is not null, make it red"
+                    sibling(v)->setColor(RED);
+            }
+
+            // delete v from the tree
+            if (isOnLeft(v)) {
+                parent->setLeft(NULL);
+            }
+            else {
+                parent->setRight(NULL);
+            }
+        }
+        delete v;
+        return;
+    }
+
+    if (v->getLeft() == NULL || v->getRight() == NULL) {
+        // v has 1 child
+        if (v == root) {
+            // v is root, assign the value of u to v, and delete u
+            v->setValue(u->getValue());
+            v->setLeft(NULL);
+            v->setRight(NULL);
+            delete u;
+        }
+        else {
+            // Detach v from tree and move u up
+            if (isOnLeft(v)) {
+                parent->setLeft(u);
+            }
+            else {
+                parent->setRight(u);
+            }
+            delete v;
+            u->parent = parent;
+            if (uvBlack) {
+                // u and v both black, fix double black at u
+                fixDoubleBlack(u);
+            }
+            else {
+                // u or v red, color u black
+                u->setColor(BLACK);
+            }
+        }
+        return;
+    }
+
+    // v has 2 children, swap values with successor and recurse
+    swapValues(u, v);
+    deleteNode(u);
+}
+
+template<typename K, typename V>
+bool RBTree<K, V>::removeNodeByKey(K key) {
+    
+    auto v = this->root;
+
+    while (v->getKey() != key)
+        if (v->getKey() > key)
+            v = v->getLeft();
+        else
+            v = v->getRight();
+
+    deleteNode(v);
+   
+    return true;
+    
 }
 
 template<typename K, typename V>

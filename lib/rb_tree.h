@@ -19,7 +19,13 @@ public:
         pr(this->root);
     }
 
-private:
+//private:
+
+    void fixDoubleBlack(Node<K, V>* x);
+
+    Node<K, V>* parentf(Node<K, V>* u);
+
+    void deleteNode(Node<K, V>* v);
 
     Node<K, V> *insert(Node<K, V> *root, Node<K, V> *n);
 
