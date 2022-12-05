@@ -3,6 +3,8 @@
 
 #include "bst.h"
 
+#define RED 'r'
+#define BLACK 'b'
 
 template<typename K, typename V>
 class RBTree : public BST<K, V> {
@@ -13,19 +15,9 @@ public:
 
     bool removeNodeByKey(K key) override;
 
+    void print();
 
-
-    void print() {
-        pr(this->root);
-    }
-
-//private:
-
-    void fixDoubleBlack(Node<K, V>* x);
-
-    Node<K, V>* parentf(Node<K, V>* u);
-
-    void deleteNode(Node<K, V>* v);
+private:
 
     Node<K, V> *insert(Node<K, V> *root, Node<K, V> *n);
 
@@ -58,9 +50,22 @@ public:
     void delete_case5(Node<K, V> *n);
 
     void delete_case6(Node<K, V> *n);
+
+    Node<K, V> *sibling(Node<K, V> *t);
+
+    Node<K, V> *uncle(Node<K, V> *t);
+
+    Node<K, V> *grandparent(Node<K, V> *t);
+
+    bool isLeaf(Node<K, V> *t);
+
+    Node<K, V> *search(Node<K, V> *temp, K key);
+
+    void replaceNode(Node<K, V> *n, Node<K, V> *child);
+
+    void nodePrint(Node<K, V> *tmp, int n = 0);
+
+    void leaf(Node<K, V> *t);
 };
-
-
-
 
 #endif //MY_BINARY_SEARCH_TREE_RB_TREE_H
