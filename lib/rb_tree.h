@@ -2,6 +2,7 @@
 #define MY_BINARY_SEARCH_TREE_RB_TREE_H
 
 #include "bst.h"
+#include "rbtree_node.h"
 
 #define RED 'r'
 #define BLACK 'b'
@@ -19,53 +20,53 @@ public:
 
 private:
 
-    Node<K, V> *insert(Node<K, V> *root, Node<K, V> *n);
+    RBTreeNode<K, V> *insert(RBTreeNode<K, V> *root, RBTreeNode<K, V> *n);
 
-    void insert_recurse(Node<K, V> *pNode, Node<K, V> *n);
+    void insert_recurse(RBTreeNode<K, V> *pNode, RBTreeNode<K, V> *n);
 
-    void insert_repair_tree(Node<K, V> *n);
+    void insert_repair_tree(RBTreeNode<K, V> *n);
 
-    void insert_case1(Node<K, V> *n);
+    void insert_case1(RBTreeNode<K, V> *n);
 
-    void insert_case2(Node<K, V> *n);
+    void insert_case2(RBTreeNode<K, V> *n);
 
-    void insert_case3(Node<K, V> *n);
+    void insert_case3(RBTreeNode<K, V> *n);
 
-    void insert_case4(Node<K, V> *n);
+    void insert_case4(RBTreeNode<K, V> *n);
 
-    void rotate_left(Node<K, V> *n);
+    void rotate_left(RBTreeNode<K, V> *n);
 
-    void rotate_right(Node<K, V> *n);
+    void rotate_right(RBTreeNode<K, V> *n);
 
-    void insert_case4step2(Node<K, V> *n);
+    void insert_case4step2(RBTreeNode<K, V> *n);
 
-    void delete_case1(Node<K, V> *n);
+    void delete_case1(RBTreeNode<K, V> *n);
 
-    void delete_case2(Node<K, V> *n);
+    void delete_case2(RBTreeNode<K, V> *n);
 
-    void delete_case3(Node<K, V> *n);
+    void delete_case3(RBTreeNode<K, V> *n);
 
-    void delete_case4(Node<K, V> *n);
+    void delete_case4(RBTreeNode<K, V> *n);
 
-    void delete_case5(Node<K, V> *n);
+    void delete_case5(RBTreeNode<K, V> *n);
 
-    void delete_case6(Node<K, V> *n);
+    void delete_case6(RBTreeNode<K, V> *n);
 
-    Node<K, V> *sibling(Node<K, V> *t);
+    RBTreeNode<K, V> *sibling(RBTreeNode<K, V> *t);
 
-    Node<K, V> *uncle(Node<K, V> *t);
+    RBTreeNode<K, V> *uncle(RBTreeNode<K, V> *t);
 
-    Node<K, V> *grandparent(Node<K, V> *t);
+    RBTreeNode<K, V> *grandparent(RBTreeNode<K, V> *t);
 
-    bool isLeaf(Node<K, V> *t);
+    bool isLeaf(RBTreeNode<K, V> *t);
 
-    Node<K, V> *search(Node<K, V> *temp, K key);
+    RBTreeNode<K, V> *search(RBTreeNode<K, V> *temp, K key);
 
-    void replaceNode(Node<K, V> *n, Node<K, V> *child);
+    void replaceNode(RBTreeNode<K, V> *n, RBTreeNode<K, V> *child);
 
-    void nodePrint(Node<K, V> *tmp, int n = 0);
+    void nodePrint(RBTreeNode<K, V> *tmp, int n = 0);
 
-    void leaf(Node<K, V> *t);
+    void leaf(RBTreeNode<K, V> *t);
 };
 
 #endif //MY_BINARY_SEARCH_TREE_RB_TREE_H

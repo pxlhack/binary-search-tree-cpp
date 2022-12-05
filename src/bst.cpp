@@ -17,11 +17,11 @@ template<typename K, typename V>
 BST<K, V>::BST(BST &bst) {
     BST();
 
-    std::stack<Node<K, V>> stack;
+    std::stack<TreeNode<K, V>> stack;
     stack.push(*bst.root);
 
     while (!stack.empty()) {
-        Node curNode = stack.top();
+        TreeNode curNode = stack.top();
         stack.pop();
 
         this->put(curNode.getKey(), curNode.getValue());
@@ -45,18 +45,20 @@ BST<K, V>::~BST() {
 template<typename K, typename V>
 bool BST<K, V>::put(K key, V value) {
     nodes_counter = 0;
-    auto *newNode = new Node<K, V>();
+    auto *newNode = new TreeNode<K, V>();
     newNode->setKey(key);
     newNode->setValue(value);
 
     if (this->root == nullptr) {
-        this->root = new Node(key, value);
+        this->root = new TreeNode<K, V>();
+        this->root->setKey(key);
+        this->root->setValue(value);
         this->size = 1;
         nodes_counter++;
         return true;
     } else {
-        Node<K, V> *curNode = this->root;
-        Node<K, V> *pred;
+        TreeNode<K, V> *curNode = this->root;
+        TreeNode<K, V> *pred;
         nodes_counter++;
         while (curNode != nullptr) {
             pred = curNode;
@@ -74,9 +76,13 @@ bool BST<K, V>::put(K key, V value) {
 
         }
         if (key < pred->getKey()) {
-            pred->setLeft(new Node(key, value));
+            pred->setLeft(new TreeNode<K, V>());
+            pred->getLeft()->setKey(key);
+            pred->getLeft()->setValue(value);
         } else {
-            pred->setRight(new Node(key, value));
+            pred->setRight(new TreeNode<K, V>());
+            pred->getRight()->setKey(key);
+            pred->getRight()->setValue(value);
         }
         this->size++;
         return true;
@@ -88,8 +94,8 @@ template<typename K, typename V>
 bool BST<K, V>::removeNodeByKey(K key) {
     nodes_counter = 0;
 
-    Node<K, V> *curNode = this->root;
-    Node<K, V> *pred;
+    TreeNode<K, V> *curNode = this->root;
+    TreeNode<K, V> *pred;
     while (curNode != nullptr && curNode->getKey() != key) {
         pred = curNode;
         if (key < curNode->getKey()) {
@@ -104,7 +110,7 @@ bool BST<K, V>::removeNodeByKey(K key) {
     }
 
 
-    Node<K, V> *x;
+    TreeNode<K, V> *x;
 
     if (curNode->getLeft() == nullptr && curNode->getRight() == nullptr) {
         x = nullptr;
@@ -124,7 +130,7 @@ bool BST<K, V>::removeNodeByKey(K key) {
         }
         if (flag) {
             pred = curNode;
-            Node<K, V> *y = curNode->getRight();
+            TreeNode<K, V> *y = curNode->getRight();
             while (y->getLeft() != nullptr) {
                 pred = y;
                 y = y->getLeft();
@@ -155,7 +161,7 @@ V BST<K, V>::getValueByKey(K key) {
     if (key == this->root->getKey()) {
         return this->root->getValue();
     }
-    Node<K, V> *curNode = this->root;
+    TreeNode<K, V> *curNode = this->root;
     while (curNode != nullptr && key != curNode->getKey()) {
         nodes_counter++;
         if (key == curNode->getKey()) {
@@ -195,7 +201,7 @@ bool BST<K, V>::setValueForKey(V value, K key) {
         return true;
     }
 
-    Node<K, V> *node;
+    TreeNode<K, V> *node;
     node = getNodeByKey(key);
 
 
@@ -210,11 +216,11 @@ bool BST<K, V>::setValueForKey(V value, K key) {
 template<typename K, typename V>
 void BST<K, V>::clear() {
     if (root != nullptr) {
-        std::stack<Node<K, V>> stack;
+        std::stack<TreeNode<K, V>> stack;
         stack.push(*(this->root));
 
         while (!stack.empty()) {
-            Node curNode = stack.top();
+            TreeNode<K,V> curNode = stack.top();
             stack.pop();
 
             removeNodeByKey(curNode.getKey());
@@ -239,8 +245,8 @@ int BST<K, V>::getTreeNodesCountViewedByPreviousOperation() {
 }
 
 template<typename K, typename V>
-Node<K, V> *BST<K, V>::getNodeByKey(K key) {
-    Node<K, V> *node = nullptr, *curNode = this->root;
+TreeNode<K, V> *BST<K, V>::getNodeByKey(K key) {
+    TreeNode<K, V> *node = nullptr, *curNode = this->root;
 
     while (curNode != nullptr && key != curNode->getKey()) {
         if (key == curNode->getKey()) {
@@ -268,10 +274,10 @@ string BST<int, int>::getStringOfKeys() {
     string keysList;
 
     if (this->root != nullptr) {
-        std::stack<Node<int, int>> stack;
+        std::stack<TreeNode<int, int>> stack;
         stack.push(*(this->root));
         while (!stack.empty()) {
-            Node curNode = stack.top();
+            TreeNode curNode = stack.top();
             stack.pop();
 
             std::ostringstream strs;
@@ -305,11 +311,10 @@ string BST<int, int>::getStringOfValues() {
         return " ";
     }
 
-
-    std::stack<Node<int, int>> stack;
+    std::stack<TreeNode<int, int>> stack;
     stack.push(*(this->root));
     while (!stack.empty()) {
-        Node curNode = stack.top();
+        TreeNode curNode = stack.top();
         stack.pop();
 
         stringstream ss;
@@ -340,17 +345,16 @@ int BST<K, V>::nodesCountWithKeysMoreThan(K key) {
     int count = 0;
 
     if (this->root != nullptr) {
-        std::stack<Node<K, V>> stack;
+        std::stack<TreeNode<K, V>> stack;
         stack.push(*(this->root));
         while (!stack.empty()) {
-            Node curNode = stack.top();
+            TreeNode curNode = stack.top();
 
             stack.pop();
 
             if (curNode.getKey() > key) {
                 count++;
             }
-
 
             if (curNode.getRight() != nullptr) {
                 stack.push(*curNode.getRight());

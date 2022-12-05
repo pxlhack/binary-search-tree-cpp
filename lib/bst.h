@@ -5,7 +5,7 @@
 #include <iostream>
 #include <sstream>
 #include <stack>
-#include "node.h"
+#include "tree_node.h"
 #include "tree_iterator.h"
 
 
@@ -52,17 +52,17 @@ public:
 
     RTreeIterator<K, V> rend();
 
-    Node<K, V> *root;
 
 private:
 
-    Node<K, V> *getNodeByKey(K key);
+    TreeNode<K, V> *getNodeByKey(K key);
 
     string getStringOfKeys();
 
     string getStringOfValues();
 
 protected:
+    TreeNode<K, V> *root;
 
     int size;
     int nodes_counter;

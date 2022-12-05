@@ -2,18 +2,19 @@
 
 template<typename K, typename V>
 RBTree<K, V>::RBTree() {
-
 }
 
 template<typename K, typename V>
 bool RBTree<K, V>::put(K key, V value) {
-    auto *node = new Node<K, V>(key, value);
-    this->root = insert(this->root, node);
+    auto *node = new RBTreeNode<K, V>();
+    node->setKey(key);
+    node->setValue(value);
+    this->root = insert(static_cast<RBTreeNode<K, V> *>(this->root), node);
     return true;
 }
 
 template<typename K, typename V>
-Node<K, V> *RBTree<K, V>::insert(Node<K, V> *root, Node<K, V> *n) {
+RBTreeNode<K, V> *RBTree<K, V>::insert(RBTreeNode<K, V> *root, RBTreeNode<K, V> *n) {
     insert_recurse(root, n);
 
     insert_repair_tree(n);
@@ -26,7 +27,7 @@ Node<K, V> *RBTree<K, V>::insert(Node<K, V> *root, Node<K, V> *n) {
 }
 
 template<typename K, typename V>
-void RBTree<K, V>::insert_repair_tree(Node<K, V> *n) {
+void RBTree<K, V>::insert_repair_tree(RBTreeNode<K, V> *n) {
     if (n->getParent() == nullptr) {
         insert_case1(n);
     } else if (n->getParent()->getColor() == BLACK) {
@@ -39,18 +40,18 @@ void RBTree<K, V>::insert_repair_tree(Node<K, V> *n) {
 }
 
 template<typename K, typename V>
-void RBTree<K, V>::insert_case1(Node<K, V> *n) {
+void RBTree<K, V>::insert_case1(RBTreeNode<K, V> *n) {
     if (n->getParent() == nullptr) {
         n->setColor(BLACK);
     }
 }
 
 template<typename K, typename V>
-void RBTree<K, V>::insert_case2(Node<K, V> *n) {
+void RBTree<K, V>::insert_case2(RBTreeNode<K, V> *n) {
 }
 
 template<typename K, typename V>
-void RBTree<K, V>::insert_case3(Node<K, V> *n) {
+void RBTree<K, V>::insert_case3(RBTreeNode<K, V> *n) {
     n->getParent()->setColor(BLACK);
     uncle(n)->setColor(BLACK);
     grandparent(n)->setColor(RED);
@@ -58,25 +59,25 @@ void RBTree<K, V>::insert_case3(Node<K, V> *n) {
 }
 
 template<typename K, typename V>
-void RBTree<K, V>::insert_case4(Node<K, V> *n) {
-    Node<K, V> *parent = n->getParent();
-    Node<K, V> *g = grandparent(n);
+void RBTree<K, V>::insert_case4(RBTreeNode<K, V> *n) {
+    RBTreeNode<K, V> *parent = n->getParent();
+    RBTreeNode<K, V> *g = grandparent(n);
 
     if (n == g->getLeft()->getRight()) {
         rotate_left(parent);
-        n = n->getLeft();
+        n = static_cast<RBTreeNode<K, V> *>(n->getLeft());
     } else if (n == g->getRight()->getLeft()) {
         rotate_right(parent);
-        n = n->getRight();
+        n = static_cast<RBTreeNode<K, V> *>n->getRight();
     }
 
     insert_case4step2(n);
 }
 
 template<typename K, typename V>
-void RBTree<K, V>::insert_case4step2(Node<K, V> *n) {
-    Node<K, V> *parent = n->getParent();
-    Node<K, V> *g = grandparent(n);
+void RBTree<K, V>::insert_case4step2(RBTreeNode<K, V> *n) {
+    RBTreeNode<K, V> *parent = n->getParent();
+    RBTreeNode<K, V> *g = grandparent(n);
 
     if (n == parent->getLeft()) {
         rotate_right(g);
@@ -88,17 +89,17 @@ void RBTree<K, V>::insert_case4step2(Node<K, V> *n) {
 }
 
 template<typename K, typename V>
-void RBTree<K, V>::rotate_left(Node<K, V> *n) {
-    Node<K, V> *p = n->getParent();
+void RBTree<K, V>::rotate_left(RBTreeNode<K, V> *n) {
+    RBTreeNode<K, V> *p = n->getParent();
 
-    Node<K, V> *nnew = n->getRight();
+    RBTreeNode<K, V> *nnew = static_cast<RBTreeNode<K, V> *>( n->getRight());
     n->setRight(nnew->getLeft());
     nnew->setLeft(n);
     n->setParent(nnew);
 
     // handle other child/parent pointers
     if (n->getRight() != nullptr) {
-        n->getRight()->setParent(n);
+        n->getRight()->setParent( n);
     }
 
     if (p != nullptr) // initially n could be the root
@@ -113,9 +114,9 @@ void RBTree<K, V>::rotate_left(Node<K, V> *n) {
 }
 
 template<typename K, typename V>
-void RBTree<K, V>::rotate_right(Node<K, V> *n) {
-    Node<K, V> *nnew = n->getLeft();
-    Node<K, V> *p = n->getParent();
+void RBTree<K, V>::rotate_right(RBTreeNode<K, V> *n) {
+    RBTreeNode<K, V> *nnew = n->getLeft();
+    RBTreeNode<K, V> *p = n->getParent();
 
     //fixme
     // assert(nnew != NULL); // since the leaves of a red-black tree are empty, they cannot become internal nodes
@@ -140,7 +141,7 @@ void RBTree<K, V>::rotate_right(Node<K, V> *n) {
 }
 
 template<typename K, typename V>
-void RBTree<K, V>::insert_recurse(Node<K, V> *root, Node<K, V> *n) {
+void RBTree<K, V>::insert_recurse(RBTreeNode<K, V> *root, RBTreeNode<K, V> *n) {
     if (root != nullptr && n->getKey() < root->getKey()) {
         if (!(isLeaf(root->getLeft()))) {
             insert_recurse(root->getLeft(), n);
@@ -159,20 +160,20 @@ void RBTree<K, V>::insert_recurse(Node<K, V> *root, Node<K, V> *n) {
 
     // insert new n n
     n->setParent(root);
-    n->setLeft(new Node<K, V>());
+    n->setLeft(new RBTreeNode<K, V>());
     leaf(n->getLeft());
-    n->setRight(new Node<K, V>());
+    n->setRight(new RBTreeNode<K, V>());
     leaf(n->getRight());
     n->setColor(RED);
 }
 
 template<typename K, typename V>
-bool isOnLeft(Node<K, V> *t) {
+bool isOnLeft(RBTreeNode<K, V> *t) {
     return (t == t->getParent()->getLeft());
 }
 
 template<typename K, typename V>
-Node<K, V> *RBTree<K, V>::sibling(Node<K, V> *t) {
+RBTreeNode<K, V> *RBTree<K, V>::sibling(RBTreeNode<K, V> *t) {
     if (t->getParent() == nullptr)
         return nullptr;
 
@@ -183,8 +184,8 @@ Node<K, V> *RBTree<K, V>::sibling(Node<K, V> *t) {
 }
 
 template<typename K, typename V>
-Node<K, V> *RBTree<K, V>::grandparent(Node<K, V> *t) {
-    Node<K, V> *p = t->getParent();
+RBTreeNode<K, V> *RBTree<K, V>::grandparent(RBTreeNode<K, V> *t) {
+    RBTreeNode<K, V> *p = t->getParent();
     if (p == nullptr) {
         return nullptr;
     }
@@ -192,10 +193,10 @@ Node<K, V> *RBTree<K, V>::grandparent(Node<K, V> *t) {
 }
 
 template<typename K, typename V>
-Node<K, V> *RBTree<K, V>::uncle(Node<K, V> *t) {
+RBTreeNode<K, V> *RBTree<K, V>::uncle(RBTreeNode<K, V> *t) {
 
-    Node<K, V> *p = t->getParent();
-    Node<K, V> *g = grandparent(t);
+    RBTreeNode<K, V> *p = t->getParent();
+    RBTreeNode<K, V> *g = grandparent(t);
     if (g == nullptr) {
         return nullptr;
     }
@@ -206,8 +207,8 @@ Node<K, V> *RBTree<K, V>::uncle(Node<K, V> *t) {
 template<typename K, typename V>
 bool RBTree<K, V>::removeNodeByKey(K key) {
     try {
-        Node<K, V> *n = search(this->root, key);
-        Node<K, V> *child = isLeaf(n->getRight()) ? n->getLeft() : n->getRight();
+        RBTreeNode<K, V> *n = search(this->root, key);
+        RBTreeNode<K, V> *child = isLeaf(n->getRight()) ? n->getLeft() : n->getRight();
 
         replaceNode(n, child);
         if (n->getColor() == BLACK) {
@@ -227,15 +228,15 @@ bool RBTree<K, V>::removeNodeByKey(K key) {
 }
 
 template<typename K, typename V>
-void RBTree<K, V>::delete_case1(Node<K, V> *n) {
+void RBTree<K, V>::delete_case1(RBTreeNode<K, V> *n) {
     if (n->getParent() != nullptr) {
         delete_case2(n);
     }
 }
 
 template<typename K, typename V>
-void RBTree<K, V>::delete_case2(Node<K, V> *n) {
-    Node<K, V> *s = sibling(n);
+void RBTree<K, V>::delete_case2(RBTreeNode<K, V> *n) {
+    RBTreeNode<K, V> *s = sibling(n);
 
     if (s->getColor() == RED) {
         n->getParent()->setColor(RED);
@@ -249,8 +250,8 @@ void RBTree<K, V>::delete_case2(Node<K, V> *n) {
 }
 
 template<typename K, typename V>
-void RBTree<K, V>::delete_case3(Node<K, V> *n) {
-    Node<K, V> *s = sibling(n);
+void RBTree<K, V>::delete_case3(RBTreeNode<K, V> *n) {
+    RBTreeNode<K, V> *s = sibling(n);
 
     if ((n->getParent()->getColor() == BLACK) &&
         (s->getColor() == BLACK) &&
@@ -264,8 +265,8 @@ void RBTree<K, V>::delete_case3(Node<K, V> *n) {
 }
 
 template<typename K, typename V>
-void RBTree<K, V>::delete_case4(Node<K, V> *n) {
-    Node<K, V> *s = sibling(n);
+void RBTree<K, V>::delete_case4(RBTreeNode<K, V> *n) {
+    RBTreeNode<K, V> *s = sibling(n);
 
     if ((n->getParent()->getColor() == RED) &&
         (s->getColor() == BLACK) &&
@@ -278,8 +279,8 @@ void RBTree<K, V>::delete_case4(Node<K, V> *n) {
 }
 
 template<typename K, typename V>
-void RBTree<K, V>::delete_case5(Node<K, V> *n) {
-    Node<K, V> *s = sibling(n);
+void RBTree<K, V>::delete_case5(RBTreeNode<K, V> *n) {
+    RBTreeNode<K, V> *s = sibling(n);
 
     if (s->getColor() == 'b') {
         /*this
@@ -371,8 +372,8 @@ void RBTree<K, V>::delete_case5(Node<K, V> *n) {
 }
 
 template<typename K, typename V>
-void RBTree<K, V>::delete_case6(Node<K, V> *n) {
-    Node<K, V> *s = sibling(n);
+void RBTree<K, V>::delete_case6(RBTreeNode<K, V> *n) {
+    RBTreeNode<K, V> *s = sibling(n);
     s->setColor(n->getParent()->getColor());
     n->getParent()->setColor(BLACK);
 
@@ -386,14 +387,14 @@ void RBTree<K, V>::delete_case6(Node<K, V> *n) {
 }
 
 template<typename K, typename V>
-bool RBTree<K, V>::isLeaf(Node<K, V> *t) {
+bool RBTree<K, V>::isLeaf(RBTreeNode<K, V> *t) {
     return (t->getLeft() == nullptr && t->getRight() == nullptr && t->getColor() == BLACK);
 }
 
 template<typename K, typename V>
-Node<K, V> *RBTree<K, V>::search(Node<K, V> *temp, K key) {
+RBTreeNode<K, V> *RBTree<K, V>::search(RBTreeNode<K, V> *temp, K key) {
     int diff;
-    Node<K, V> *tmp = temp;
+    RBTreeNode<K, V> *tmp = temp;
     while (!isLeaf(tmp)) {
         diff = key - tmp->getKey();
         if (diff > 0) {
@@ -408,7 +409,7 @@ Node<K, V> *RBTree<K, V>::search(Node<K, V> *temp, K key) {
 }
 
 template<typename K, typename V>
-void RBTree<K, V>::replaceNode(Node<K, V> *n, Node<K, V> *child) {
+void RBTree<K, V>::replaceNode(RBTreeNode<K, V> *n, RBTreeNode<K, V> *child) {
     child->setParent(n->getParent());
     if (n == n->getParent()->getLeft()) {
         n->getParent()->setLeft(child);
@@ -418,7 +419,7 @@ void RBTree<K, V>::replaceNode(Node<K, V> *n, Node<K, V> *child) {
 }
 
 template<typename K, typename V>
-void RBTree<K, V>::nodePrint(Node<K, V> *tmp, int n) {
+void RBTree<K, V>::nodePrint(RBTreeNode<K, V> *tmp, int n) {
     if (tmp != nullptr) {
         nodePrint(tmp->getRight(), n + 5);
 
@@ -435,7 +436,7 @@ void RBTree<K, V>::print() {
 }
 
 template<typename K, typename V>
-void RBTree<K, V>::leaf(Node<K, V> *t) {
+void RBTree<K, V>::leaf(RBTreeNode<K, V> *t) {
     t->setRight(nullptr);
     t->setLeft(nullptr);
     t->setParent(nullptr);

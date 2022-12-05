@@ -3,7 +3,7 @@
 #ifndef MY_BINARY_SEARCH_TREE_TREE_ITERATOR_H
 #define MY_BINARY_SEARCH_TREE_TREE_ITERATOR_H
 
-#include "node.h"
+#include "tree_node.h"
 #include "bst.h"
 #include <stack>
 #include <vector>
@@ -16,7 +16,7 @@ public:
         root = nullptr;
     }
 
-    TreeIterator(Node<K, V> *root, int index) {
+    TreeIterator(TreeNode<K, V> *root, int index) {
         this->root = root;
         this->index = index;
         if (root)
@@ -49,7 +49,7 @@ public:
         return strs.str();
     }
 
-    Node<K, V> &operator*() {
+    TreeNode<K, V> &operator*() {
         return *nodeVector[index];
     }
 
@@ -57,8 +57,8 @@ private:
 
 
     void fill() {
-        Node<K, V> *node = root;
-        std::stack<Node<K, V> *> st;
+        TreeNode<K, V> *node = root;
+        std::stack<TreeNode<K, V> *> st;
         while (!st.empty() || node) {
             if (node) {
                 st.push(node);
@@ -73,8 +73,8 @@ private:
     }
 
     int index;
-    std::vector<Node<K, V> *> nodeVector;
-    Node<K, V> *root;
+    std::vector<TreeNode<K, V> *> nodeVector;
+    TreeNode<K, V> *root;
 };
 
 template<typename K, typename V>
@@ -85,7 +85,7 @@ public:
         root = nullptr;
     }
 
-    RTreeIterator(Node<K, V> *root, int index) {
+    RTreeIterator(TreeNode<K, V> *root, int index) {
         this->root = root;
         this->index = index;
         if (root)
@@ -119,7 +119,7 @@ public:
         return strs.str();
     }
 
-    Node<K, V> &operator*() {
+    TreeNode<K, V> &operator*() {
         return *nodeVector[index];
     }
 
@@ -127,8 +127,8 @@ private:
 
 
     void fill() {
-        Node<K, V> *node = root;
-        std::stack<Node<K, V> *> st;
+        TreeNode<K, V> *node = root;
+        std::stack<TreeNode<K, V> *> st;
         while (!st.empty() || node) {
             if (node) {
                 st.push(node);
@@ -143,8 +143,8 @@ private:
     }
 
     int index;
-    std::vector<Node<K, V> *> nodeVector;
-    Node<K, V> *root;
+    std::vector<TreeNode<K, V> *> nodeVector;
+    TreeNode<K, V> *root;
 };
 
 
