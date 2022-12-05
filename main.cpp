@@ -11,5 +11,6 @@ int main() {
     bool flag = rbTree.removeNodeByKey(5);
     cout << endl;
     rbTree.print();
+
     return 0;
 }
