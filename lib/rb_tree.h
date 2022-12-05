@@ -13,7 +13,7 @@ public:
 
     bool removeNodeByKey(K key) override;
 
-    V getValueByKey(K key) override;
+
 
     void print() {
         pr(this->root);
@@ -40,7 +40,21 @@ private:
     void rotate_right(Node<K, V> *n);
 
     void insert_case4step2(Node<K, V> *n);
+
+    void delete_case1(Node<K, V> *n);
+
+    void delete_case2(Node<K, V> *n);
+
+    void delete_case3(Node<K, V> *n);
+
+    void delete_case4(Node<K, V> *n);
+
+    void delete_case5(Node<K, V> *n);
+
+    void delete_case6(Node<K, V> *n);
 };
+
+
 
 
 #endif //MY_BINARY_SEARCH_TREE_RB_TREE_H

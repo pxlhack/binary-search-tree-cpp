@@ -6,7 +6,6 @@
 #include <iostream>
 
 
-
 template<typename K, typename V>
 BST<K, V>::BST() {
     this->root = nullptr;
@@ -331,9 +330,6 @@ string BST<int, int>::getStringOfValues() {
 }
 
 
-
-
-
 template<>
 void BST<int, int>::showValuesList() {
     cout << getStringOfValues() << endl;
@@ -383,7 +379,7 @@ TreeIterator<K, V> BST<K, V>::end() {
 
 template<typename K, typename V>
 RTreeIterator<K, V> BST<K, V>::rbegin() {
-    return RTreeIterator<K, V>(root, size-1);
+    return RTreeIterator<K, V>(root, size - 1);
 }
 
 template<typename K, typename V>

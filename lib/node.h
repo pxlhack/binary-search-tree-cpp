@@ -87,7 +87,7 @@ public:
         return p->parent; // NULL if parent is root
     }
 
-    Node *subling() {
+    Node *sibling() {
         Node *p = this->parent;
         if (p == NULL)
             return NULL; // No parent means no sibling
@@ -102,7 +102,7 @@ public:
         Node *g = grandparent();
         if (g == NULL)
             return NULL; // No grandparent means no uncle
-        return p->subling();
+        return p->sibling();
     }
 
     bool isLeaf() {
@@ -119,9 +119,37 @@ void pr(Node<K, V> *tmp, int n = 0) {
 
         for (int i = 0; i < n; i++)
             cout << " ";
-        cout << tmp->getKey() << endl;
+        cout << tmp->getKey() << " " << tmp->getColor() << endl;
         pr(tmp->getLeft(), n + 5);
     }
 }
+
+template<typename K, typename V>
+Node<K, V> *search(Node<K, V> *temp, K key) {
+    int diff;
+    Node<K, V> *tmp = temp;
+    while (!tmp->isLeaf()) {
+        diff = key - tmp->key;
+        if (diff > 0) {
+            tmp = tmp->right;
+        } else if (diff < 0) {
+            tmp = tmp->left;
+        } else {
+            return tmp;
+        }
+    }
+    throw "not found!";
+}
+
+template<typename K, typename V>
+void replace_node(Node<K, V> *n, Node<K, V> *child) {
+    child->parent = n->parent;
+    if (n == n->parent->left)
+        n->parent->left = child;
+    else
+        n->parent->right = child;
+
+}
+
 
 #endif //MY_BINARY_SEARCH_TREE_NODE_H
