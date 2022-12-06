@@ -9,7 +9,7 @@ int main() {
     cout << endl;
     cout << endl;
 
-//    rbTree.print();
+    rbTree.print();
 
     return 0;
 }
