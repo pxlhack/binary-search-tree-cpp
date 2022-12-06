@@ -6,11 +6,7 @@ int main() {
         rbTree.put(i, 3);
     }
     rbTree.print();
-    cout << endl;
 
-    cout << endl;
-
-    rbTree.print();
 
     return 0;
 }
