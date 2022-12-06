@@ -7,6 +7,7 @@ int main() {
     }
     rbTree.print();
     cout << endl;
+
     cout << endl;
 
     rbTree.print();
