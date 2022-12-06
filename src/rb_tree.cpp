@@ -7,6 +7,22 @@ RBTree<K, V>::RBTree() {
 
 template<typename K, typename V>
 bool RBTree<K, V>::put(K key, V value) {
+    if (this->root != nullptr) {
+        int diff;
+        RBTreeNode<K, V> *tmp = this->root;
+
+        while (!isLeaf(tmp)) {
+            diff = key - tmp->getKey();
+            if (diff > 0) {
+                tmp = tmp->getRight();
+            } else if (diff < 0) {
+                tmp = tmp->getLeft();
+            } else {
+                return false;
+            }
+        }
+    }
+
     auto *node = new RBTreeNode<K, V>(key, value);
     this->root = insert(this->root, node);
     this->size++;
@@ -426,7 +442,9 @@ void RBTree<K, V>::nodePrint(RBTreeNode<K, V> *tmp, int n) {
 
         for (int i = 0; i < n; i++)
             cout << " ";
+
         cout << "[" << tmp->getKey() << "-" << tmp->getColor() << "]" << endl;
+
         nodePrint(tmp->getLeft(), n + 5);
     }
 }
@@ -467,6 +485,27 @@ V RBTree<K, V>::getValueByKey(K key) {
     } else {
         throw "not found!";
     }
+}
+
+template<typename K, typename V>
+ReverseRBTreeIterator<K, V> RBTree<K, V>::itrbegin() {
+    return ReverseRBTreeIterator<K, V>(root, this->size - 1);
+}
+
+template<typename K, typename V>
+ReverseRBTreeIterator<K, V> RBTree<K, V>::itrend() {
+    return ReverseRBTreeIterator<K, V>(root, -1);
+}
+
+
+template<typename K, typename V>
+RBTreeIterator<K, V> RBTree<K, V>::itbegin() {
+    return RBTreeIterator<K, V>(root, 0);
+}
+
+template<typename K, typename V>
+RBTreeIterator<K, V> RBTree<K, V>::itend() {
+    return RBTreeIterator<K, V>(root, -1);
 }
 
 template

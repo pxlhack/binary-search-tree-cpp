@@ -29,36 +29,37 @@ public:
         color = c;
     }
 
-    RBTreeNode* getParent() const {
+    RBTreeNode *getParent() const {
         return parent;
     }
 
-    void setParent(RBTreeNode* parent) {
-        RBTreeNode::parent = parent;
+    void setParent(RBTreeNode *parent) {
+
+        this->parent = parent;
     }
 
-    RBTreeNode* getRight() const {
+    RBTreeNode *getRight() const {
         return right;
     }
 
-    void setRight(RBTreeNode* right) {
+    void setRight(RBTreeNode *right) {
         this->right = right;
     }
 
-    RBTreeNode* getLeft() const {
+    RBTreeNode *getLeft() const {
         return left;
     }
 
-    void setLeft(RBTreeNode* left) {
+    void setLeft(RBTreeNode *left) {
         this->left = left;
     }
 
 
 private:
     char color;
-    RBTreeNode* parent;
-    RBTreeNode<K, V>* left;
-    RBTreeNode<K, V>* right;
+    RBTreeNode *parent;
+    RBTreeNode<K, V> *left;
+    RBTreeNode<K, V> *right;
 };
 
 
