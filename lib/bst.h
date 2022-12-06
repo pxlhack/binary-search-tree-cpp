@@ -52,9 +52,11 @@ public:
 
     RTreeIterator<K, V> rend();
 
-    Node<K, V> *root;
+    
 
 private:
+
+    Node<K, V>* root;
 
     Node<K, V> *getNodeByKey(K key);
 

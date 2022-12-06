@@ -10,8 +10,8 @@ int main() {
     cout << endl;
     cout << endl;
 
-    rbTree.removeNodeByKey(6);
-
+   rbTree.removeNodeByKey(6);
+   
     rbTree.print();
     return 0;
 }
