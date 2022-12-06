@@ -6,6 +6,7 @@
 #define MY_BINARY_SEARCH_TREE_HEADER_H
 
 #include "bst.h"
+#include "rb_tree.h"
 #include "user_functions.h"
 #include "tree_iterator.h"
 

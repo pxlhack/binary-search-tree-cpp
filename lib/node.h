@@ -1,5 +1,5 @@
-#ifndef MY_BINARY_SEARCH_TREE_NODE_H
-#define MY_BINARY_SEARCH_TREE_NODE_H
+#ifndef MY_BINARY_SEARCH_TREE_TREE_NODE_H
+#define MY_BINARY_SEARCH_TREE_TREE_NODE_H
 
 template<typename K, typename V>
 class Node {
@@ -9,11 +9,10 @@ public:
         this->left = nullptr;
     }
 
-    Node(K key, V value) {
+    Node(K key, V value){
+        Node();
         this->key = key;
         this->value = value;
-        this->right = nullptr;
-        this->left = nullptr;
     }
 
     K getKey() const {
@@ -21,7 +20,7 @@ public:
     }
 
     void setKey(K key) {
-        Node::key = key;
+        this->key = key;
     }
 
     V getValue() const {
@@ -29,30 +28,33 @@ public:
     }
 
     void setValue(V value) {
-        Node::value = value;
+        this->value = value;
     }
 
-    Node *getRight() const {
+    Node* getRight() const {
         return right;
     }
 
-    void setRight(Node *right) {
-        Node::right = right;
+    void setRight(Node<K, V>* right) {
+        this->right = right;
     }
 
-    Node *getLeft() const {
+    Node* getLeft() const {
         return left;
     }
 
-    void setLeft(Node *left) {
-        Node::left = left;
+    void setLeft(Node<K, V>* left) {
+        this->left = left;
     }
 
-
-private:
+protected:
     K key;
     V value;
-    Node *right, *left;
+
+private:
+    Node<K, V>* left;
+    Node<K, V>* right;
 };
 
-#endif //MY_BINARY_SEARCH_TREE_NODE_H
+
+#endif //MY_BINARY_SEARCH_TREE_TREE_NODE_H

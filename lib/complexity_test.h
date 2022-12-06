@@ -1,3 +1,4 @@
+/*
 //
 // Created by noneme on 23.11.2022.
 //
@@ -24,3 +25,4 @@ INT_64 LineRand();
 void sRand();
 
 #endif //MY_BINARY_SEARCH_TREE_COMPLEXITY_TEST_H
+*/

@@ -5,7 +5,6 @@
 #include "../lib/bst.h"
 #include <iostream>
 
-typedef unsigned long long INT_64;
 
 template<typename K, typename V>
 BST<K, V>::BST() {
@@ -330,6 +329,7 @@ string BST<int, int>::getStringOfValues() {
     return valuesList;
 }
 
+
 template<>
 void BST<int, int>::showValuesList() {
     cout << getStringOfValues() << endl;
@@ -379,7 +379,7 @@ TreeIterator<K, V> BST<K, V>::end() {
 
 template<typename K, typename V>
 RTreeIterator<K, V> BST<K, V>::rbegin() {
-    return RTreeIterator<K, V>(root, size-1);
+    return RTreeIterator<K, V>(root, size - 1);
 }
 
 template<typename K, typename V>
@@ -388,4 +388,4 @@ RTreeIterator<K, V> BST<K, V>::rend() {
 }
 
 template
-class BST<INT_64, int>;
+class BST<unsigned long long, int>;
