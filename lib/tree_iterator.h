@@ -49,12 +49,14 @@ public:
         return strs.str();
     }
 
-    virtual Node<K, V> &operator*() {
+    Node<K, V> &operator*() {
         return *nodeVector[index];
     }
 
-protected:
-    virtual void fill() {
+private:
+
+
+    void fill() {
         Node<K, V> *node = root;
         std::stack<Node<K, V> *> st;
         while (!st.empty() || node) {
@@ -71,8 +73,6 @@ protected:
     }
 
     int index;
-private:
-
     std::vector<Node<K, V> *> nodeVector;
     Node<K, V> *root;
 };
@@ -88,16 +88,13 @@ public:
     RTreeIterator(Node<K, V> *root, int index) {
         this->root = root;
         this->index = index;
-        if (root) {
+        if (root)
             fill();
-        }
     }
 
     RTreeIterator &operator++() {
         index++;
-        if (index == -1) {
-            index = -1;
-        }
+        if (index == -1) { index = -1; }
 
         return *this;
     }
@@ -126,11 +123,10 @@ public:
         return *nodeVector[index];
     }
 
+private:
 
-protected:
-    int index;
 
-    virtual void fill() {
+    void fill() {
         Node<K, V> *node = root;
         std::stack<Node<K, V> *> st;
         while (!st.empty() || node) {
@@ -146,7 +142,7 @@ protected:
         }
     }
 
-private:
+    int index;
     std::vector<Node<K, V> *> nodeVector;
     Node<K, V> *root;
 };

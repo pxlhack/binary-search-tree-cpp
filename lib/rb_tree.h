@@ -3,7 +3,6 @@
 
 #include "bst.h"
 #include "rb_node.h"
-#include "rb_tree_iterator.h"
 
 #define RED 'r'
 #define BLACK 'b'
@@ -21,13 +20,9 @@ public:
 
     void print();
 
-    RBTreeIterator<K,V> begin();
-
-    RBTreeIterator<K,V> end();
-
 private:
 
-    RBTreeNode<K, V>* root;
+    RBTreeNode<K, V>* root = nullptr;
 
     RBTreeNode<K, V> *insert(RBTreeNode<K, V> *root, RBTreeNode<K, V> *n);
 
@@ -78,15 +73,6 @@ private:
     void leaf(RBTreeNode<K, V> *t);
 };
 
-template<typename K, typename V>
-RBTreeIterator<K, V> RBTree<K, V>::begin() {
-    return RBTreeIterator<K,V>(root, 0);
-}
-
-template<typename K, typename V>
-RBTreeIterator<K, V> RBTree<K, V>::end() {
-    return RBTreeIterator<K,V>(root, -1);
-}
 
 
 #endif //MY_BINARY_SEARCH_TREE_RB_TREE_H

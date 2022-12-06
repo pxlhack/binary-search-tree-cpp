@@ -5,19 +5,12 @@ int main() {
     for (int i = 1; i < 17; ++i) {
         rbTree.put(i, 3);
     }
+    rbTree.print();
+    cout << endl;
 
+    cout << endl;
 
-//    auto it = rbTree.begin();
-//    cout << (*it).getKey() << endl;
-//    int count = 0;
-//    while (it != rbTree.end()) {
-//        cout << (*it).getKey() << endl;
-//        ++it;
-//        count++;
-//    }
-
-//    cout << count << endl;
-
+    rbTree.print();
 
     return 0;
 }
