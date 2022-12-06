@@ -16,6 +16,8 @@ public:
 
     bool removeNodeByKey(K key) override;
 
+    V getValueByKey(K key) override;
+
     void print();
 
 private:
@@ -70,5 +72,7 @@ private:
 
     void leaf(RBTreeNode<K, V> *t);
 };
+
+
 
 #endif //MY_BINARY_SEARCH_TREE_RB_TREE_H

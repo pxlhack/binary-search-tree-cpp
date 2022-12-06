@@ -9,6 +9,7 @@ template<typename K, typename V>
 bool RBTree<K, V>::put(K key, V value) {
     auto *node = new RBTreeNode<K, V>(key, value);
     this->root = insert(this->root, node);
+    this->size++;
     return true;
 }
 
@@ -218,6 +219,7 @@ bool RBTree<K, V>::removeNodeByKey(K key) {
             }
         }
         delete n;
+        this->size--;
         return true;
     }
     catch (const char *c) {
@@ -440,6 +442,31 @@ void RBTree<K, V>::leaf(RBTreeNode<K, V> *t) {
     t->setLeft(nullptr);
     t->setParent(nullptr);
     t->setColor(BLACK);
+}
+
+template<typename K, typename V>
+V RBTree<K, V>::getValueByKey(K key) {
+    if (key == this->root->getKey()) {
+        return this->root->getValue();
+    }
+    RBTreeNode<K, V> *curNode = this->root;
+    while (curNode != nullptr && key != curNode->getKey()) {
+        if (key == curNode->getKey()) {
+            return curNode->getValue();
+        }
+
+        if (key < curNode->getKey()) {
+            curNode = curNode->getLeft();
+        } else {
+            curNode = curNode->getRight();
+        }
+
+    }
+    if (curNode != nullptr) {
+        return curNode->getValue();
+    } else {
+        throw "not found!";
+    }
 }
 
 template
