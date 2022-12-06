@@ -4,6 +4,7 @@
 #include "bst.h"
 #include "rb_node.h"
 #include "rb_tree_iterator.h"
+#include "reverse_rb_tree_iterator.h"
 
 #define RED 'r'
 #define BLACK 'b'
@@ -24,6 +25,10 @@ public:
     RBTreeIterator<K, V> itbegin();
 
     RBTreeIterator<K, V> itend();
+
+    ReverseRBTreeIterator<K, V> itrbegin();
+
+    ReverseRBTreeIterator<K, V> itrend();
 
 private:
 
@@ -77,6 +82,17 @@ private:
 
     void leaf(RBTreeNode<K, V> *t);
 };
+
+template<typename K, typename V>
+ReverseRBTreeIterator<K, V> RBTree<K, V>::itrbegin() {
+    return ReverseRBTreeIterator<K, V>(root, this->size - 1);
+}
+
+template<typename K, typename V>
+ReverseRBTreeIterator<K, V> RBTree<K, V>::itrend() {
+    return ReverseRBTreeIterator<K, V>(root, -1);
+}
+
 
 template<typename K, typename V>
 RBTreeIterator<K, V> RBTree<K, V>::itbegin() {

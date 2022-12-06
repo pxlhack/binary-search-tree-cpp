@@ -5,13 +5,13 @@ int main() {
     for (int i = 1; i < 17; ++i) {
         rbTree.put(i, 3);
     }
-    rbTree.print();
-    rbTree.removeNodeByKey(14);
-    rbTree.print();
+//    rbTree.print();
+//    rbTree.removeNodeByKey(14);
+//    rbTree.print();
 
 
-    auto it = rbTree.itbegin();
-    while (it != rbTree.itend()) {
+    auto it = rbTree.itrbegin();
+    while (it != rbTree.itrend()) {
         cout << (*it).getKey() << endl;
         ++it;
     }
