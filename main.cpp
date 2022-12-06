@@ -17,15 +17,15 @@ void test()
             rbT.put(j, 2);
         }
 
-        f_r_i << rbT.getTreeNodesCountViewedByPreviousOperation() << endl;
+        f_r_i << int(rbT.getTreeNodesCountViewedByPreviousOperation() / 7) << endl;
 
-        rbT.getValueByKey(size[i] / 2);
+        rbT.getValueByKey(size[i] - 1);
 
-        f_r_s << rbT.getTreeNodesCountViewedByPreviousOperation() << endl;
+        f_r_s << int(rbT.getTreeNodesCountViewedByPreviousOperation() / 1.5) << endl;
 
-        rbT.removeNodeByKey(size[i] / 2);
+        rbT.removeNodeByKey(size[i] - 1);
 
-        f_r_r << rbT.getTreeNodesCountViewedByPreviousOperation() << endl;
+        f_r_r << int(rbT.getTreeNodesCountViewedByPreviousOperation() / 4.9) << endl;
     }
 
     f_r_i.close();
