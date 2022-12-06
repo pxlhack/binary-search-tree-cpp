@@ -14,7 +14,7 @@ public:
         root = nullptr;
     }
 
-    RBTreeIterator(Node<K, V> *root, int index) {
+    RBTreeIterator(RBTreeNode<K, V> *root, int index) {
         this->root = root;
         this->index = index;
         if (root)
@@ -66,13 +66,15 @@ private:
             } else {
                 node = st.top();
                 st.pop();
-                nodeVector.push_back(node);
+                if (node->getLeft() && node->getRight() || node->getColor() != 'b')
+                    nodeVector.push_back(node);
                 node = node->getRight();
             }
         }
     }
 
 };
+
 
 
 #endif //MY_BINARY_SEARCH_TREE_RB_TREE_ITERATOR_H
